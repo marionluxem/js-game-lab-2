@@ -1,48 +1,67 @@
 "use strict";
 
+(function (){
 
-let playGame = confirm("Would you like to play a game?");
 
+function startGame() {
+    let playGame = confirm("Would you like to play a game?");
+    let userName;
 
-if (playGame === true) {
-    let userName = prompt("Name your character.");
+    if (playGame === true) {
+        userName = prompt("Name your character.");
+        startCombat();
+    } else if (play === false){
+        console.log(`If you say so...`); 
+    }
 
+function startCombat() {
     let userHealth = 40;
     let grantHealth = 10;
     let wins = 0;
+    console.log(`${userName} is starting with ${userHealth} points. Almighty Grant is starting with ${grantHealth} health points. Let's go!`);
 
-    console.log(`It's time to play. ${userName}'s starting health is ${userHealth}. Almighty Grant's starting health is ${grantHealth}`);
-   
-    while (grantHealth > 0) {
-        
-        console.log(`${userName}'s Health: ${userHealth -= Math.floor((Math.random()* 2) + 1)}`);
-        console.log(`Almighty Grant's Health: ${grantHealth -= Math.floor((Math.random() * 2) + 1)}`);
-
-        if (userHealth <= 0) {
-            console.log(`Oh no... The Almighty Grant Won!`);
-            document.getElementById("result").innerHTML = `Oh no... The Almighty Grant Won!`;
-            break;
-        }
-        if (grantHealth <= 0 && wins <= 2) {
-            wins++;
-            console.log(`${userName} WON ${wins} of 3 rounds.`);
-            grantHealth = 10;
-        }
-        if (wins === 3) {
-            console.log(`GAME OVER! Congratulations ${userName}! You won!`);
-            break;
-        }
-        
-        
+    function getDamage() {
+        userHealth -= Math.floor((Math.random() *5) +1);
+        grantHealth -= Math.floor((Math.random() *5) +1);
     }
 
+    while (userHealth > 0 && wins <= 2) {
+        getDamage();
+
+
+
+        if (userHealth > 0) {
+            console.log(`${userName} has ${userHealth} health points left.`);
+            console.log(`Almighty Grant has ${grantHealth} health points left.`);
+        }
+
+        if (grantHealth <= 0) {
+            wins +=1;
+        }
+
+        if (wins < 3 && grantHealth <= 0) {
+        } else if (wins === 3) {
+            console.log(`${userName} won!`);
+        }
+
+        if (grantHealth <= 0) {
+            grantHealth = 10;
+        }
+
+        if (userHealth <= 0) {
+            console.log("Almighty Grant has defeated you!");
+        }
+
+        let attackQuit = confirm("Press 'OK' to ATTACK! or press 'CANCEL' to quit");
+
+          if (attackQuit === false) {
+            console.log(`Quitter! Refresh the page and try again.`);
+            break;
+          }
+
 }
-else if (playGame === false) {
-   console.log(`If you say so...`);
+
 }
-    
-    
-
-    
-
-
+}
+startGame();
+})();
